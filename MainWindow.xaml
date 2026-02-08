@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:local="clr-namespace:spa.Controls"
-        Title="SPA" MinHeight="450" MinWidth="800">
+        Title="SPA"
+        MinHeight="450"
+        MinWidth="800">
     <Grid>
-        <Grid >
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="260"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="260" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0">
                 <Grid Margin="14 0 14 0">
@@ -23,103 +25,108 @@
                             <RowDefinition />
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
-                        <RichTextBox  />
+                        <TextBox Text="{Binding ReceiveText}" AcceptsReturn="True" />
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition  />
-                                <ColumnDefinition  />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition  Width="60" />
                             </Grid.ColumnDefinitions>
                             <local:DropdownLabel Label="模式"
-                             ItemsSource="{Binding ModeOptions}"
-                                                                                SelectedValue="{Binding SelectedReciveModeId}"
-
-                              />
-                            <local:DropdownLabel  Grid.Column="1"  Label="编码"
- ItemsSource="{Binding EncodeOptions}"
-                                                    SelectedValue="{Binding SelectedReciveEncodeId}"
-
-  />
-                            <Button Grid.Column="2" Content="保存" Style="{DynamicResource AccentButtonStyle}" />
-                            <Button Grid.Column="3" Content="清空" />
+                                                 ItemsSource="{Binding ModeOptions}"
+                                                 SelectedValue="{Binding SelectedReciveModeId}" />
+                            <local:DropdownLabel  Grid.Column="1"
+                                                  Label="编码"
+                                                  ItemsSource="{Binding EncodeOptions}"
+                                                  SelectedValue="{Binding SelectedReciveEncodeId}" />
+                            <Button Grid.Column="2"
+                                    Content="保存"
+                                    Style="{DynamicResource AccentButtonStyle}" />
+                            <Button Grid.Column="3"
+                                    Content="清空" />
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
-                        <RichTextBox />
+                        <TextBox Text="{Binding SendText}"
+                                 AcceptsReturn="True" />
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition  />
-                                <ColumnDefinition  />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition  Width="60" />
                             </Grid.ColumnDefinitions>
                             <local:DropdownLabel Label="模式"
-                            ItemsSource="{Binding ModeOptions}"
-                                                                               SelectedValue="{Binding SelectedSendModeId}"
-
-                             />
-                            <local:DropdownLabel  Grid.Column="1"  Label="编码"
-ItemsSource="{Binding EncodeOptions}"
-                                                   SelectedValue="{Binding SelectedSendEncodeId}"
-
- />
-                            <Button Grid.Column="2" Content="保存" Style="{DynamicResource AccentButtonStyle}" />
-                            <Button Grid.Column="3" Content="清空" />
+                                                 ItemsSource="{Binding ModeOptions}"
+                                                 SelectedValue="{Binding SelectedSendModeId}" />
+                            <local:DropdownLabel  Grid.Column="1"
+                                                  Label="编码"
+                                                  ItemsSource="{Binding EncodeOptions}"
+                                                  SelectedValue="{Binding SelectedSendEncodeId}" />
+                            <Button Grid.Column="2"
+                                    Content="保存"
+                                    Style="{DynamicResource AccentButtonStyle}" />
+                            <Button Grid.Column="3"
+                                    Content="清空" />
                         </Grid>
                     </Grid>
                 </Grid>
             </DockPanel>
-            <DockPanel  Grid.Column="1" >
+            <DockPanel  Grid.Column="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="60" />
                     </Grid.RowDefinitions>
-                    <Grid >
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50" />
                             <RowDefinition Height="50" />
                             <RowDefinition Height="50" />
                             <RowDefinition Height="50" />
                             <RowDefinition Height="50" />
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
-                        <local:DropdownLabel  Grid.Row="0"  Label="串口号"
-ItemsSource="{Binding SerialOptions}"
-                                                   SelectedValue="{Binding SelectedSerialId}"
-
- />
-
-                        <local:DropdownLabel  Grid.Row="1"  Label="波特率"
-ItemsSource="{Binding BaudRateOptions}"
-                                                   SelectedValue="{Binding SelectedBaudRateId}"
-
- />
-                        <local:DropdownLabel  Grid.Row="2"  Label="校验位"
-ItemsSource="{Binding BaudParityBitOptions}"
-                                                   SelectedValue="{Binding SelectedParityBitId}"
-
- />
-                        <local:DropdownLabel  Grid.Row="3"  Label="数据位"
-ItemsSource="{Binding BaudDataBitOptions}"
-                                                   SelectedValue="{Binding SelectedDataBitId}"
-
- />
-                        <local:DropdownLabel  Grid.Row="4"  Label="停止位"
-ItemsSource="{Binding BaudStopBitOptions}"
-                                                   SelectedValue="{Binding SelectedStopBitId}"
-
- />
+                        <local:DropdownLabel  Grid.Row="0"
+                                              Label="串口号"
+                                              ItemsSource="{Binding SerialOptions}"
+                                              SelectedValue="{Binding SelectedSerialId}" />
+                        <local:DropdownLabel  Grid.Row="1"
+                                              Label="波特率"
+                                              ItemsSource="{Binding BaudRateOptions}"
+                                              SelectedValue="{Binding SelectedBaudRateId}" />
+                        <local:DropdownLabel  Grid.Row="2"
+                                              Label="校验位"
+                                              ItemsSource="{Binding BaudParityBitOptions}"
+                                              SelectedValue="{Binding SelectedParityBitId}" />
+                        <local:DropdownLabel  Grid.Row="3"
+                                              Label="数据位"
+                                              ItemsSource="{Binding BaudDataBitOptions}"
+                                              SelectedValue="{Binding SelectedDataBitId}" />
+                        <local:DropdownLabel  Grid.Row="4"
+                                              Label="停止位"
+                                              ItemsSource="{Binding BaudStopBitOptions}"
+                                              SelectedValue="{Binding SelectedStopBitId}" />
                     </Grid>
-                    <Button Grid.Row="1" Width="220" HorizontalAlignment="Center" Style="{DynamicResource AccentButtonStyle}" Content="打开串口"/>
+                    <Button Grid.Row="1"
+                            Visibility="{Binding OpenSerial}"
+                            Width="220"
+                            HorizontalAlignment="Center"
+                            Style="{DynamicResource AccentButtonStyle}"
+                            Content="打开串口"  Click="Handle_Open"/>
+                    <Button Grid.Row="1"
+                            Width="220"
+                            HorizontalAlignment="Center"
+                            Style="{DynamicResource AccentButtonStyle}"
+                            Content="关闭串口"
+                            Click="Handle_Close" />
                 </Grid>
             </DockPanel>
         </Grid>
-
     </Grid>
 </Window>

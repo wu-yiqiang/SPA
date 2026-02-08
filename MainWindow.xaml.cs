@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace spa
 {
@@ -24,6 +25,17 @@ namespace spa
             InitializeComponent();
             DataContext = new MainViewModel();
         }
+
+        public void Handle_Open(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("打开");
+
+        }
+        public void Handle_Close(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("关闭");
+        }
+
     }
 
 }
