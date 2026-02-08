@@ -8,9 +8,10 @@ namespace spa.ViewModels
     {
         public int SelectedReciveModeId { get; set; } = 1;
         public int SelectedReciveEncodeId { get; set; } = 1;
-
         public int SelectedSendModeId { get; set; } = 1;
         public int SelectedSendEncodeId { get; set; } = 1;
+        public string ReceiveText { get; set; } = "接收数据";
+        public string SendText { get; set; } = "发送数据";
 
         public class ModeOption { public int Id { get; set; } public string Name { get; set; } }
 
