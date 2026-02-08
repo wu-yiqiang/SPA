@@ -33,20 +33,14 @@
                             </Grid.ColumnDefinitions>
                             <local:DropdownLabel Label="模式"
                              ItemsSource="{Binding ModeOptions}"
+                                                                                SelectedValue="{Binding SelectedReciveModeId}"
+
                               />
-                            <Grid Margin="14 0 14 0" Grid.Column="1" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" VerticalAlignment="Center"
-Content="编码" />
-                                <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                    <ComboBoxItem Content="UTF-8" />
-                                    <ComboBoxItem Content="UTF-16" />
-                                </ComboBox>
-                            </Grid>
+                            <local:DropdownLabel  Grid.Column="1"  Label="编码"
+ ItemsSource="{Binding EncodeOptions}"
+                                                    SelectedValue="{Binding SelectedReciveEncodeId}"
+
+  />
                             <Button Grid.Column="2" Content="保存" Style="{DynamicResource AccentButtonStyle}" />
                             <Button Grid.Column="3" Content="清空" />
                         </Grid>
@@ -64,32 +58,16 @@ SelectedIndex="0">
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition  Width="60" />
                             </Grid.ColumnDefinitions>
-                            <Grid Margin="14 0 14 0" Grid.Column="0" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" VerticalAlignment="Center"
-Content="模式" />
-                                <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                    <ComboBoxItem Content="HEX" />
-                                    <ComboBoxItem Content="HEX2" />
-                                </ComboBox>
-                            </Grid>
-                            <Grid Margin="14 0 14 0" Grid.Column="1" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" VerticalAlignment="Center"
-Content="编码" />
-                                <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                    <ComboBoxItem Content="UTF-8" />
-                                    <ComboBoxItem Content="UTF-16" />
-                                </ComboBox>
-                            </Grid>
+                            <local:DropdownLabel Label="模式"
+                            ItemsSource="{Binding ModeOptions}"
+                                                                               SelectedValue="{Binding SelectedSendModeId}"
+
+                             />
+                            <local:DropdownLabel  Grid.Column="1"  Label="编码"
+ItemsSource="{Binding EncodeOptions}"
+                                                   SelectedValue="{Binding SelectedSendEncodeId}"
+
+ />
                             <Button Grid.Column="2" Content="保存" Style="{DynamicResource AccentButtonStyle}" />
                             <Button Grid.Column="3" Content="清空" />
                         </Grid>
@@ -102,7 +80,7 @@ SelectedIndex="0">
                         <RowDefinition />
                         <RowDefinition Height="60" />
                     </Grid.RowDefinitions>
-                    <Grid Width="220">
+                    <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50" />
@@ -111,72 +89,32 @@ SelectedIndex="0">
                             <RowDefinition Height="50" />
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="160" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" VerticalAlignment="Center"
- Content="串口号" />
-                            <ComboBox Grid.Column="1" VerticalAlignment="Center"
- SelectedIndex="0">
-                                <ComboBoxItem Content="COM1" />
-                                <ComboBoxItem Content="COM2" />
-                                <ComboBoxItem Content="COM3" />
-                            </ComboBox>
-                        </Grid>
-                        <Grid Grid.Row="1"  >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="160" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" VerticalAlignment="Center"
-Content="波特率" />
-                            <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                <ComboBoxItem Content="3700" />
-                                <ComboBoxItem Content="900" />
-                            </ComboBox>
-                        </Grid>
-                        <Grid Grid.Row="2"  >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="160" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" VerticalAlignment="Center"
-Content="校验位" />
-                            <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                <ComboBoxItem Content="NONE" />
-                                <ComboBoxItem Content="EVEN" />
-                            </ComboBox>
-                        </Grid>
-                        <Grid Grid.Row="3"  >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="160" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" VerticalAlignment="Center"
-Content="数据位" />
-                            <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                <ComboBoxItem Content="8" />
-                                <ComboBoxItem Content="16" />
-                            </ComboBox>
-                        </Grid>
-                        <Grid Grid.Row="4"  >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="160" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" VerticalAlignment="Center"
-Content="停止位" />
-                            <ComboBox Grid.Column="1" VerticalAlignment="Center"
-SelectedIndex="0">
-                                <ComboBoxItem Content="1" />
-                                <ComboBoxItem Content="0" />
-                            </ComboBox>
-                        </Grid>
+                        <local:DropdownLabel  Grid.Row="0"  Label="串口号"
+ItemsSource="{Binding SerialOptions}"
+                                                   SelectedValue="{Binding SelectedSerialId}"
+
+ />
+
+                        <local:DropdownLabel  Grid.Row="1"  Label="波特率"
+ItemsSource="{Binding BaudRateOptions}"
+                                                   SelectedValue="{Binding SelectedBaudRateId}"
+
+ />
+                        <local:DropdownLabel  Grid.Row="2"  Label="校验位"
+ItemsSource="{Binding BaudParityBitOptions}"
+                                                   SelectedValue="{Binding SelectedParityBitId}"
+
+ />
+                        <local:DropdownLabel  Grid.Row="3"  Label="数据位"
+ItemsSource="{Binding BaudDataBitOptions}"
+                                                   SelectedValue="{Binding SelectedDataBitId}"
+
+ />
+                        <local:DropdownLabel  Grid.Row="4"  Label="停止位"
+ItemsSource="{Binding BaudStopBitOptions}"
+                                                   SelectedValue="{Binding SelectedStopBitId}"
+
+ />
                     </Grid>
                     <Button Grid.Row="1" Width="220" HorizontalAlignment="Center" Style="{DynamicResource AccentButtonStyle}" Content="打开串口"/>
                 </Grid>

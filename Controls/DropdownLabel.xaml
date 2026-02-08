@@ -8,13 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="14 0 14 0" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="60" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding Label}" />
-        <ComboBox ItemsSource="{Binding ItemsSource,RelativeSource={RelativeSource AncestorType=UserControl}}" Grid.Column="1" VerticalAlignment="Center"  >
-
-        </ComboBox>
-        
+        <Label Grid.Column="0" VerticalAlignment="Center" Content="{Binding Label, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+        <ComboBox ItemsSource="{Binding ItemsSource,RelativeSource={RelativeSource AncestorType=UserControl}}" SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        Grid.Column="1" VerticalAlignment="Center" DisplayMemberPath="Name" SelectedValuePath="Id"  />
     </Grid>
 </UserControl>

@@ -11,26 +11,29 @@ namespace spa.Controls
     public partial class DropdownLabel : UserControl
     {
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register("Label", typeof(string), typeof(DropdownLabel), new PropertyMetadata(""));
+           DependencyProperty.Register("Label", typeof(string), typeof(DropdownLabel), new PropertyMetadata("选项"));
 
+        public static readonly DependencyProperty ItemsSourceProperty =
+           DependencyProperty.Register("ItemsSource", typeof(object), typeof(DropdownLabel), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedValueProperty =
+            DependencyProperty.Register("SelectedValue", typeof(object), typeof(DropdownLabel), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string Label
         {
             get => (string)GetValue(LabelProperty);
             set => SetValue(LabelProperty, value);
         }
 
-        public static readonly DependencyProperty ItemsSourceProperty =
-          DependencyProperty.Register(
-              name: "ItemsSource",                     // 属性名（必须与 CLR 属性同名）
-              propertyType: typeof(IEnumerable),       // 类型：IEnumerable 或 object
-              ownerType: typeof(DropdownLabel)           // 所属类型
-          );
-        public IEnumerable ItemsSource
+        public object ItemsSource
         {
-            get => (IEnumerable)GetValue(ItemsSourceProperty);
+            get => GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
+        public object SelectedValue
+        {
+            get => GetValue(SelectedValueProperty);
+            set => SetValue(SelectedValueProperty, value);
+        }
         public DropdownLabel()
         {
             InitializeComponent();

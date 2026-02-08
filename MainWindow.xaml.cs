@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using spa.ViewModels;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,19 +19,11 @@ namespace spa
     public partial class MainWindow : Window
     {
 
-        public ObservableCollection<string> ModeOptions { get; } = new()
-        {
-            "HEX", "ASCII", "Base64", "Binary"
-        };
-
-        public ObservableCollection<string> EncodingOptions { get; } = new()
-        {
-            "UTF-8", "UTF-16", "GBK", "ASCII"
-        };
-
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
     }
+
 }
