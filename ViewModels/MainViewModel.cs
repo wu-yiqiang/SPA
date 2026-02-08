@@ -83,8 +83,7 @@ namespace spa.ViewModels
         public List<BaudStopBitOption> BaudStopBitOptions { get; set; } = new()
         {
             new BaudStopBitOption { Id=1, Name = "1" },
-                        new BaudStopBitOption { Id=2, Name = "2" },
-
+            new BaudStopBitOption { Id=2, Name = "2" },
         };
     }
 }
