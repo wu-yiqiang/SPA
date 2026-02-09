@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace spa.ViewModels
 {
@@ -12,17 +16,17 @@ namespace spa.ViewModels
         public int SelectedReciveEncodeId { get; set; } = 1;
         public int SelectedSendModeId { get; set; } = 1;
         public int SelectedSendEncodeId { get; set; } = 1;
-        public string ReceiveText { get; set; } = "接收数据";
-        public string SendText { get; set; } = "发送数据";
+        public string ReceiveText { get; set; } = "";
+        public string SendText { get; set; } = "";
 
-        public class ModeOption { public int Id { get; set; } public string Name { get; set; } }
+        public class EncodeModeOption { public int Id { get; set; } public string Name { get; set; } }
 
-        public List<ModeOption> ModeOptions { get; set; } = new()
+        public List<EncodeModeOption> EncodeModeOptions { get; set; } = new()
         {
-            new ModeOption { Id=1, Name = "HEX" },
-            new ModeOption { Id=2, Name = "ASCII" },
-            new ModeOption { Id=3, Name = "BASE64" },
-            new ModeOption { Id=3, Name = "BINARY" },
+            new EncodeModeOption { Id=1, Name = "HEX" },
+            new EncodeModeOption { Id=2, Name = "ASCII" },
+            new EncodeModeOption { Id=3, Name = "BASE64" },
+            new EncodeModeOption { Id=3, Name = "BINARY" },
         };
 
         public int SelectedEncodeId { get; set; } = 1;
@@ -88,5 +92,35 @@ namespace spa.ViewModels
             new BaudStopBitOption { Id=1, Name = "1" },
             new BaudStopBitOption { Id=2, Name = "2" },
         };
+
+        private void TextBox_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                string text = (string)e.DataObject.GetData(typeof(string));
+                if (!text.All(char.IsDigit))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9.]+");
+            e.Handled = regex.IsMatch(e.Text);
+            var textBox = sender as TextBox;
+            if (e.Text == ".")
+            {
+                if (textBox.Text.Contains(".") || textBox.CaretIndex == 0)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
     }
 }
