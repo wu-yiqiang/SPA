@@ -8,6 +8,8 @@
         Title="SPA"
         WindowStartupLocation="CenterScreen"
         Height="500"
+        MinHeight="500"
+        MinWidth="900"
         Width="900">
     <Grid>
         <Grid>
@@ -15,6 +17,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="260" />
             </Grid.ColumnDefinitions>
+            
             <DockPanel Grid.Column="0">
                 <Grid Margin="14 0 0 0">
                     <Grid.RowDefinitions>
@@ -26,7 +29,7 @@
                             <RowDefinition />
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
-                        <TextBox Text="{Binding ReceiveText}"
+                        <TextBox Text="{Binding ReceiveText, Mode=OneWay}"
                                  AcceptsReturn="True"
                                  IsReadOnly="True" />
                         <Grid Grid.Row="1">
@@ -36,15 +39,20 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition  Width="60" />
                             </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" Content="显示时间戳" />
+                            <CheckBox Grid.Column="0"
+                                      Content="显示时间戳"
+                                      IsChecked="{Binding ShowTimeStamp}" />
                             <CheckBox Grid.Column="1"
-                                      Content="自动滚动" />
+                                      Content="自动滚动"
+                                      IsChecked="{Binding AutoScroll}" />
                             <local:DropdownLabel Grid.Column="2"
-                                                 Label="编码"
+                                                 Label="编码模式"
+                                                 LabelWidth="70"
                                                  ItemsSource="{Binding EncodeModeOptions}"
                                                  SelectedValue="{Binding SelectedReciveEncodeId}" />
                             <Button HorizontalAlignment="Right"
                                     Grid.Column="4"
+                                    Command="{Binding ReceiveClear}"
                                     Content="清空" />
                         </Grid>
                     </Grid>
@@ -53,7 +61,7 @@
                             <RowDefinition />
                             <RowDefinition Height="30" />
                         </Grid.RowDefinitions>
-                        <TextBox Text="{Binding SendText}"
+                        <TextBox Text="{Binding SendText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  AcceptsReturn="True"
                                  Margin="0 0 0 10" />
                         <Grid Grid.Row="1"
@@ -67,20 +75,26 @@
                                 <ColumnDefinition Width="60" />
                             </Grid.ColumnDefinitions>
                             <CheckBox Grid.Column="0"
-                                      Content="自动发送" />
-                            <Label Grid.Column="1" VerticalAlignment="Center" Content="发送周期(ms)" />
+                                      Content="自动发送"
+                                      IsChecked="{Binding AutoSend}" />
+                            <Label Grid.Column="1" VerticalAlignment="Center" Content="发送周期(ms)"  />
                             <TextBox Grid.Column="2"
                                      InputMethod.IsInputMethodEnabled="False"
+                                     Text="{Binding SendFrequency}"
                                     />
                             <local:DropdownLabel Grid.Column="3"
-                                                 Label="编码"
+                                                 Label="编码模式"
+                                                 LabelWidth="70"
                                                  ItemsSource="{Binding EncodeModeOptions}"
                                                  SelectedValue="{Binding SelectedReciveEncodeId}" />
                             <Button Grid.Column="4" HorizontalAlignment="Right" Grid.Row="0"
                                     Content="发送"
-                                    Style="{DynamicResource AccentButtonStyle}" />
+                                    IsEnabled="{Binding OpenSerial}"
+                                    Style="{DynamicResource AccentButtonStyle}"
+                                    Command="{Binding SendCommand}" />
                             <Button Grid.Column="5" HorizontalAlignment="Right" Grid.Row="1"
-                                    Content="清空" />
+                                    Content="清空"
+                                    Command="{Binding SendClear}" />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -104,38 +118,95 @@
                         </Grid.RowDefinitions>
                         <local:DropdownLabel  Grid.Row="0"
                                               Label="串口号"
-                                              ItemsSource="{Binding SerialOptions}"
-                                              SelectedValue="{Binding SelectedSerialId}" />
+                                              ItemsSource="{Binding SerialList}"
+                                              IsEnabled="{Binding Enabled}"
+                                              SelectedValue="{Binding SerialName}" />
                         <local:DropdownLabel  Grid.Row="1"
                                               Label="波特率"
                                               ItemsSource="{Binding BaudRateOptions}"
-                                              SelectedValue="{Binding SelectedBaudRateId}" />
+                                              IsEnabled="{Binding Enabled}"
+                                              SelectedValue="{Binding BaudRate}" />
                         <local:DropdownLabel  Grid.Row="2"
                                               Label="校验位"
                                               ItemsSource="{Binding BaudParityBitOptions}"
+                                              IsEnabled="{Binding Enabled}"
                                               SelectedValue="{Binding SelectedParityBitId}" />
                         <local:DropdownLabel  Grid.Row="3"
                                               Label="数据位"
                                               ItemsSource="{Binding BaudDataBitOptions}"
+                                              IsEnabled="{Binding Enabled}"
                                               SelectedValue="{Binding SelectedDataBitId}" />
                         <local:DropdownLabel  Grid.Row="4"
                                               Label="停止位"
+                                              IsEnabled="{Binding Enabled}"
                                               ItemsSource="{Binding BaudStopBitOptions}"
                                               SelectedValue="{Binding SelectedStopBitId}" />
-                        
                     </Grid>
                     <Button Grid.Row="1"
-                            Visibility="{Binding OpenSerial}"
                             Width="220"
                             HorizontalAlignment="Center"
-                            Style="{DynamicResource AccentButtonStyle}"
-                            Content="打开串口"  Click="Handle_Open"/>
-                    <Button Grid.Row="1"
-                            Width="220"
-                            HorizontalAlignment="Center"
-                            Style="{DynamicResource AccentButtonStyle}"
-                            Content="关闭串口"
-                            Click="Handle_Close" />
+                            IsEnabled="{Binding ButtonEnabled}"
+                            Command="{Binding BtnOpenCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource AccentButtonStyle}">
+                                <Setter Property="Content"
+                                        Value="打开串口" />
+                                <Setter Property="Background"
+                                        Value="{DynamicResource SystemControlBackgroundAccentBrush}" />
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource SystemControlForegroundChromeWhiteBrush}" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="4"
+                                                    SnapsToDevicePixels="True">
+                                                <ContentPresenter x:Name="contentPresenter"
+                                                                  Focusable="False"
+                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                  Margin="{TemplateBinding Padding}"
+                                                                  RecognizesAccessKey="True"
+                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter TargetName="border"
+                                                            Property="Opacity"
+                                                            Value="0.9" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed"
+                                                         Value="True">
+                                                    <Setter TargetName="border"
+                                                            Property="Opacity"
+                                                            Value="0.8" />
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled"
+                                                         Value="False">
+                                                    <Setter TargetName="border"
+                                                            Property="Opacity"
+                                                            Value="0.5" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding OpenSerial}"
+                                                 Value="True">
+                                        <Setter Property="Content"
+                                                Value="关闭串口" />
+                                        <Setter Property="Background"
+                                                Value="#28a745" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </Grid>
             </DockPanel>
         </Grid>

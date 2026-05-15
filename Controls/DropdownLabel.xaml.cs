@@ -12,15 +12,31 @@ namespace spa.Controls
     {
         public static readonly DependencyProperty LabelProperty =
            DependencyProperty.Register("Label", typeof(string), typeof(DropdownLabel), new PropertyMetadata("选项"));
+        public static readonly DependencyProperty LabelWidthProperty =
+           DependencyProperty.Register("LabelWidth", typeof(int), typeof(DropdownLabel), new PropertyMetadata(60));
 
         public static readonly DependencyProperty ItemsSourceProperty =
            DependencyProperty.Register("ItemsSource", typeof(object), typeof(DropdownLabel), new PropertyMetadata(null));
+        
+        public static readonly DependencyProperty IsEnabledProperty =
+           DependencyProperty.Register("IsEnabled", typeof(bool), typeof(DropdownLabel), new PropertyMetadata(true, OnIsEnabledChanged));
         public static readonly DependencyProperty SelectedValueProperty =
             DependencyProperty.Register("SelectedValue", typeof(object), typeof(DropdownLabel), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string Label
         {
             get => (string)GetValue(LabelProperty);
             set => SetValue(LabelProperty, value);
+        }
+        public int LabelWidth
+        {
+            get => (int)GetValue(LabelWidthProperty);
+            set => SetValue(LabelWidthProperty, value);
+        }
+        public new bool IsEnabled
+        {
+            get => (bool)GetValue(IsEnabledProperty);
+            set => SetValue(IsEnabledProperty, value);
+
         }
 
         public object ItemsSource
@@ -37,6 +53,18 @@ namespace spa.Controls
         public DropdownLabel()
         {
             InitializeComponent();
+        }
+        private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DropdownLabel control && e.NewValue is bool isEnabled)
+            {
+                // 假设你 XAML 里的 ComboBox 名字叫 "InnerComboBox"
+                // 这样就能实现：外部禁用 DropdownLabel -> 内部 ComboBox 自动变灰不可点
+                if (control.FindName("InnerComboBox") is ComboBox comboBox)
+                {
+                    comboBox.IsEnabled = isEnabled;
+                }
+            }
         }
     }
 }
