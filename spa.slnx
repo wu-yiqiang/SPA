@@ -1,4 +1,3 @@
 <Solution>
-  <Project Path="Setup1/Setup1.vdproj" Type="Installer" />
   <Project Path="spa.csproj" />
 </Solution>
