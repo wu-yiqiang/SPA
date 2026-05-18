@@ -209,7 +209,6 @@ namespace spa.ViewModels
                 {
                     serialPort.Open();
                     OpenSerial = true;
-                    MessageBox.Show("连接串口成功", "提示", MessageBoxButton.OK);
                 }
                 catch
                 {
@@ -219,7 +218,6 @@ namespace spa.ViewModels
             {
                 serialPort.Close();
                 OpenSerial = false;
-                MessageBox.Show("关闭串口成功", "提示", MessageBoxButton.OK);
             }
         }
         private void Send(object? obj)

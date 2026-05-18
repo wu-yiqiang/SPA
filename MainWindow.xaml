@@ -150,8 +150,20 @@
                         <Button.Style>
                             <Style TargetType="Button"
                                    BasedOn="{StaticResource AccentButtonStyle}">
-                                <Setter Property="Content"
-                                        Value="打开串口" />
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                            <Image Source="pack://application:,,,/spa;component/assets/Icons/launch.png"
+                                                   Width="20"
+                                                   Height="20"
+                                                   Margin="0,0,8,0"
+                                                   VerticalAlignment="Center" />
+                                            <TextBlock Text="连接串口"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter Property="Background"
                                         Value="{DynamicResource SystemControlBackgroundAccentBrush}" />
                                 <Setter Property="Foreground"
@@ -198,8 +210,20 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding OpenSerial}"
                                                  Value="True">
-                                        <Setter Property="Content"
-                                                Value="关闭串口" />
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Center">
+                                                    <Image Source="pack://application:,,,/spa;component/assets/Icons/stop.png"
+                                                           Width="20"
+                                                           Height="20"
+                                                           Margin="0,0,8,0"
+                                                           VerticalAlignment="Center" />
+                                                    <TextBlock Text="关闭串口"
+                                                               VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Background"
                                                 Value="#28a745" />
                                     </DataTrigger>
