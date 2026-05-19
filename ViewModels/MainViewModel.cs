@@ -7,6 +7,7 @@ using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Shapes;
 
@@ -138,7 +139,7 @@ namespace spa.ViewModels
             {
                 if (ShowTimeStamp)
                 {
-                    var lines = RecordList.Select(static r => $"【{r.Timestamp:yyyy-MM-dd HH:mm:ss.fff}】 {r.Content}");
+                    var lines = RecordList.Select((r, index) => $"{(index + 1).ToString("D3")} 【{r.Timestamp:yyyy/MM/dd HH:mm:ss.fff}】{Environment.NewLine}{r.Content} {Environment.NewLine}");
                     return string.Join(Environment.NewLine, lines);
 
                 }
@@ -156,8 +157,15 @@ namespace spa.ViewModels
         {
             get;
             set
+
             {
-                field = value;
+                var newValue = value?.Trim();
+
+                if (SelectedSendEncodeId == 1)
+                {
+                    newValue = Regex.Replace(newValue ?? "", "[^0-9a-fA-F]", "");
+                }
+                field = newValue;
                 OnPropertyChanged(nameof(SendText));
             }
         } = "";
@@ -179,6 +187,7 @@ namespace spa.ViewModels
             ReceiveClear = new Command(ClearReceived);
             serialPort.DataReceived += SerialPort_DataReceived;
         }
+
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -227,6 +236,10 @@ namespace spa.ViewModels
                 return;
             }
             string send_text = Regex.Replace(SendText, @"\s", "");
+            if (send_text.Length % 2 != 0)
+            {
+                send_text = "0" + send_text;
+            }
             byte[] send_data = Convert.FromHexString(send_text);
             serialPort.Write(send_data, 0, send_data.Length); 
             RecordList.Add(new SerialRecord
