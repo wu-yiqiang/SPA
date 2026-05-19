@@ -10,14 +10,15 @@
     <Grid Margin="14 0 14 0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="{Binding LabelWidth, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0"
                VerticalAlignment="Center"
                Content="{Binding Label, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-        <ComboBox ItemsSource="{Binding ItemsSource,RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <ComboBox Grid.Column="1"
+                  HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding ItemsSource,RelativeSource={RelativeSource AncestorType=UserControl}}"
                   SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                  Grid.Column="1"
                   VerticalAlignment="Center"
                   DisplayMemberPath="Name"
                   IsEnabled="{Binding IsEnabled,RelativeSource={RelativeSource AncestorType=UserControl}}"

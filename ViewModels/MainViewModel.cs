@@ -1,15 +1,10 @@
 ﻿using spa.Base;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Shapes;
+using MessageBoxs = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace spa.ViewModels
 {
@@ -37,7 +32,10 @@ namespace spa.ViewModels
                 OnPropertyChanged(nameof(ButtonEnabled));
             }
         }
-        public bool ShowTimeStamp { get; set; }
+        public bool ShowTimeStamp { get; set {
+                field = value;
+                OnPropertyChanged(nameof(ReceiveText));
+            } }
         public bool ButtonEnabled { get {
                 if (SerialName != null)
                 {
@@ -49,7 +47,22 @@ namespace spa.ViewModels
         }
         public bool AutoScroll { get; set; }
         public bool AutoSend { get; set; }
-        public int SendFrequency { get; set; } = 1000;
+        public string SendFrequency {
+            get;
+            set
+            {
+                var data = Regex.Replace(value, "[^0-9]", "");
+                if (data.Length > 0 )
+                {
+                    field = data;
+                }else
+                {
+                    field = "1";
+                }
+                OnPropertyChanged(nameof(SendFrequency));
+
+            }
+        } = "1000";
         public class SerialPortOption { public required string Id { get; set; } public required string Name { get; set; } }
         public List<SerialPortOption> SerialList { get; } = SerialPort.GetPortNames().Select((name, index) => new SerialPortOption { Name = name, Id = name }).ToList();
 
@@ -139,7 +152,7 @@ namespace spa.ViewModels
             {
                 if (ShowTimeStamp)
                 {
-                    var lines = RecordList.Select((r, index) => $"{(index + 1).ToString("D3")} 【{r.Timestamp:yyyy/MM/dd HH:mm:ss.fff}】{Environment.NewLine}{r.Content} {Environment.NewLine}");
+                    var lines = RecordList.Select((r, index) => $"【{r.Timestamp:yyyy/MM/dd HH:mm:ss.fff}】 {(index + 1).ToString("D3")} {Environment.NewLine}  {r.Content} {Environment.NewLine}");
                     return string.Join(Environment.NewLine, lines);
 
                 }
@@ -221,7 +234,7 @@ namespace spa.ViewModels
                 }
                 catch
                 {
-                    MessageBox.Show("连接串口失败", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBoxs.Show("请检查该串口是否被占用？", "串口连接失败", MessageBoxButton.OK, MessageBoxImage.Hand);
                 }
             }else
             {

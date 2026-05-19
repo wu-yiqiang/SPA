@@ -2,11 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:WindowHelper.SystemBackdropType="Mica"
+        WindowStartupLocation="CenterScreen"
         xmlns:local="clr-namespace:spa.Controls"
         Title="SPA"
-        WindowStartupLocation="CenterScreen"
         Height="500"
         MinHeight="500"
         MinWidth="900"
@@ -62,7 +63,7 @@
                           Margin="0 0 0 10">
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="30" />
+                            <RowDefinition Height="32" />
                         </Grid.RowDefinitions>
                         <TextBox Text="{Binding SendText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  AcceptsReturn="True"
@@ -72,7 +73,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="120" />
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition Width="60" />
@@ -82,12 +83,12 @@
                                       IsChecked="{Binding AutoSend}" />
                             <Label Grid.Column="1" VerticalAlignment="Center" Content="发送周期(ms)"  />
                             <TextBox Grid.Column="2"
-                                     InputMethod.IsInputMethodEnabled="False"
-                                     Text="{Binding SendFrequency}"
-                                    />
+                                     AcceptsReturn="True"
+                                     Text="{Binding SendFrequency, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     />
                             <local:DropdownLabel Grid.Column="3"
-                                                 Label="编码模式"
-                                                 LabelWidth="70"
+                                                 Label="编码"
+                                                 LabelWidth="40"
                                                  ItemsSource="{Binding EncodeModeOptions}"
                                                  SelectedValue="{Binding SelectedReciveEncodeId}" />
                             <Button Grid.Column="4" HorizontalAlignment="Right" Grid.Row="0"
