@@ -34,6 +34,9 @@
                                  AcceptsReturn="True"
                                  TextWrapping="Wrap"
                                  VerticalScrollBarVisibility="Auto"
+                                 x:Name="txtLog"
+                                 ScrollViewer.ScrollChanged="TxtLog_ScrollChanged"
+                                 TextChanged="TxtLog_TextChanged"
                                  IsReadOnly="True" />
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>

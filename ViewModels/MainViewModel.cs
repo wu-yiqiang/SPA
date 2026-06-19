@@ -1,9 +1,11 @@
 ﻿using spa.Base;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using MessageBoxs = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace spa.ViewModels
@@ -12,6 +14,8 @@ namespace spa.ViewModels
 
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        private System.Windows.Threading.DispatcherTimer _autoSendTimer;
+
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -46,7 +50,24 @@ namespace spa.ViewModels
             }
         }
         public bool AutoScroll { get; set; }
-        public bool AutoSend { get; set; }
+        public bool AutoSend { get; set
+            {
+                field = value;
+
+                if (value == true)
+                {
+                    // 3. 启动定时器
+                    _autoSendTimer.Interval = TimeSpan.FromMilliseconds(Convert.ToDouble(SendFrequency));
+                    _autoSendTimer.Start();
+                }
+                else
+                {
+                    // 关闭自动发送
+                    _autoSendTimer.Stop();
+                }
+            }
+        }
+      
         public string SendFrequency {
             get;
             set
@@ -59,8 +80,8 @@ namespace spa.ViewModels
                 {
                     field = "1";
                 }
+                _autoSendTimer.Interval = TimeSpan.FromMilliseconds(Convert.ToDouble(data));
                 OnPropertyChanged(nameof(SendFrequency));
-
             }
         } = "1000";
         public class SerialPortOption { public required string Id { get; set; } public required string Name { get; set; } }
@@ -199,6 +220,11 @@ namespace spa.ViewModels
             SendClear = new Command(Clear);
             ReceiveClear = new Command(ClearReceived);
             serialPort.DataReceived += SerialPort_DataReceived;
+            _autoSendTimer = new System.Windows.Threading.DispatcherTimer();
+            _autoSendTimer.Tick += (s, e) =>
+            {
+                HandleSendText();
+            };
         }
 
 
@@ -234,7 +260,7 @@ namespace spa.ViewModels
                 }
                 catch
                 {
-                    MessageBoxs.Show("请检查该串口是否被占用？", "串口连接失败", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    MessageBoxs.Show("请检查该串口是否被占用", "串口连接失败", MessageBoxButton.OK, MessageBoxImage.Hand);
                 }
             }else
             {
@@ -243,6 +269,10 @@ namespace spa.ViewModels
             }
         }
         private void Send(object? obj)
+        {
+            HandleSendText();
+        }
+        private void HandleSendText()
         {
             if (String.IsNullOrEmpty(SendText.Trim()) != false || !OpenSerial)
             {
@@ -254,7 +284,7 @@ namespace spa.ViewModels
                 send_text = "0" + send_text;
             }
             byte[] send_data = Convert.FromHexString(send_text);
-            serialPort.Write(send_data, 0, send_data.Length); 
+            serialPort.Write(send_data, 0, send_data.Length);
             RecordList.Add(new SerialRecord
             {
                 Timestamp = DateTime.Now,

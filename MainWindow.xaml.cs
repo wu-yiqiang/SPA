@@ -19,11 +19,15 @@ namespace spa
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly MainViewModel _viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            _viewModel = new MainViewModel();
+
+            DataContext = _viewModel;
+
         }
 
         public void Handle_Open(object sender, RoutedEventArgs e)
@@ -34,6 +38,30 @@ namespace spa
         public void Handle_Close(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("关闭");
+        }
+        private bool _isUserScrolling = false;
+
+        private void TxtLog_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+
+                if (!_isUserScrolling && _viewModel.AutoScroll == true)
+                {
+                    textBox.ScrollToEnd();
+                }
+            }
+        }
+        private void TxtLog_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                var scrollViewer = textBox.Template.FindName("PART_ContentHost", textBox) as ScrollViewer;
+                if (scrollViewer != null)
+                {
+                    _isUserScrolling = scrollViewer.VerticalOffset < scrollViewer.ScrollableHeight - 10;
+                }
+            }
         }
 
     }
