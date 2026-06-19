@@ -6,8 +6,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Build/Build.vdproj" Type="Installer">
-    <Build />
-  </Project>
+  <Project Path="Build/Build.vdproj" Type="Installer" />
   <Project Path="spa.csproj" />
 </Solution>
